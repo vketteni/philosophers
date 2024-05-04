@@ -26,7 +26,7 @@ int	check_arguments(int argc, const char **argv)
 	while (argc > 1)
 	{
 		argument = argv[argc - 1];
-		while (*argument > '0' && *argument < '9')
+		while (*argument >= '0' && *argument <= '9')
 			argument++;
 		if (*argument)
 		{

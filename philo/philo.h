@@ -26,7 +26,7 @@ typedef struct s_locks
 {
 	pthread_mutex_t	*thread_mutexes;
 	pthread_mutex_t	print_lock;
-	pthread_mutex_t	last_meal_lock;
+	pthread_mutex_t	mealtime_lock;
 	pthread_mutex_t	total_meals_lock;
 }					t_locks;
 
@@ -43,26 +43,34 @@ typedef struct s_thread_data
 {
 	pthread_t		thread;
 	long			thread_id;
-	t_data			data;
+	t_data			*input_data;
 	long			starttime;
-	pthread_mutex_t	*thread_lock;
-	pthread_mutex_t	*print_lock;
-	pthread_mutex_t	*last_meal_lock;
-	pthread_mutex_t	*total_meals_lock;
-	
+	t_locks			*locks;
+
 }					t_thread_data;
 
+void				*thread_routine(void *arg);
+size_t				get_timestamp(void);
+void				philosopher_log(char *format_string, long thread_id,
+						pthread_mutex_t *print_lock);
+void				he_picks_up_forks(t_thread_data *thread_data);
+void				he_sleeps(t_thread_data *thread_data);
+void				he_eats(t_thread_data *thread_data);
+void				he_releases_forks(t_thread_data *thread_data);
+void				he_thinks(t_thread_data *thread_data);
+void	set_last_mealtime(t_thread_data *thread_data, pthread_mutex_t *mealtime_lock);
 int					ft_isdigit(unsigned int c);
 int					ft_strncmp(char *s1, char *s2, size_t n);
 int					ft_atoi(const char *nptr);
 int					check_arguments(int argc, const char **argv);
 int					free_memory(t_locks *mutexes, pthread_t *threads,
 						t_data *data);
-t_thread_data		*initialize_thread_data(t_locks *locks, t_data *data);
+t_thread_data		*initialize_thread_data(pthread_t *threads, t_locks *locks,
+						t_data *data);
 pthread_t			*initialize_threads(size_t num_threads);
-t_data				*initialize_data(int argc, const char **argv);
-pthread_mutex_t		*initialize_forks(t_data *data);
-t_locks				*initialize_mutexes(t_data *data);
+t_data				*initialize_input(int argc, const char **argv);
+t_locks				*initialize_locks(t_locks *locks, t_data *data);
+t_locks				*create_locks(t_data *data);
 
 /*
 	Allowed functions:

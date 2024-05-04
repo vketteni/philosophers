@@ -59,8 +59,6 @@ int	ft_atoi(const char *nptr)
 
 int	free_memory(t_locks *mutexes, pthread_t *threads, t_data *data)
 {
-	pthread_t	*forks;
-
 	if (threads)
 		free(threads);
 	if (data)
