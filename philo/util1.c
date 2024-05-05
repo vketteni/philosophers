@@ -66,6 +66,7 @@ int	free_memory(t_locks *mutexes, pthread_t *threads, t_data *data)
 	if (mutexes)
 	{
 		free(mutexes->thread_mutexes);
+		free(mutexes->mealtime_mutexes);
 		free(mutexes);
 	}
 	return (EXIT_FAILURE);

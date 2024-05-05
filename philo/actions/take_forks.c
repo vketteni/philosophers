@@ -23,15 +23,18 @@ void	pick_right_fork(t_thread_data *thread_data)
 			% (num_philosophers)]));
 }
 
-void	he_picks_up_forks(t_thread_data *thread_data)
+int	he_picks_up_forks(t_thread_data *thread_data)
 {
 	int		thread_id;
 	t_locks	*locks;
 
 	thread_id = thread_data->thread_id;
 	locks = thread_data->locks;
+	if (locks->philosopher_died_flag)
+		return (1);
 	pick_left_fork(thread_data);
-	philosopher_log("has taken a fork\n", thread_id, &(locks->print_lock));
+	philosopher_log("has taken a fork\n", thread_data, &(locks->print_lock));
 	pick_right_fork(thread_data);
-	philosopher_log("has taken a fork\n", thread_id, &(locks->print_lock));
+	philosopher_log("has taken a fork\n", thread_data, &(locks->print_lock));
+	return (0);
 }

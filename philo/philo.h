@@ -25,9 +25,11 @@
 typedef struct s_locks
 {
 	pthread_mutex_t	*thread_mutexes;
+	pthread_mutex_t	*mealtime_mutexes;
 	pthread_mutex_t	print_lock;
-	pthread_mutex_t	mealtime_lock;
 	pthread_mutex_t	total_meals_lock;
+	long			starttime_flag;
+	long			philosopher_died_flag;
 }					t_locks;
 
 typedef struct s_data
@@ -44,20 +46,21 @@ typedef struct s_thread_data
 	pthread_t		thread;
 	long			thread_id;
 	t_data			*input_data;
-	long			starttime;
+	size_t			mealtime;
+	size_t			starttime;
 	t_locks			*locks;
 
 }					t_thread_data;
 
 void				*thread_routine(void *arg);
 size_t				get_timestamp(void);
-void				philosopher_log(char *format_string, long thread_id,
+void				philosopher_log(char *format_string, t_thread_data *thread_data,
 						pthread_mutex_t *print_lock);
-void				he_picks_up_forks(t_thread_data *thread_data);
-void				he_sleeps(t_thread_data *thread_data);
-void				he_eats(t_thread_data *thread_data);
-void				he_releases_forks(t_thread_data *thread_data);
-void				he_thinks(t_thread_data *thread_data);
+int				he_picks_up_forks(t_thread_data *thread_data);
+int				he_sleeps(t_thread_data *thread_data);
+int				he_eats(t_thread_data *thread_data);
+int				he_releases_forks(t_thread_data *thread_data);
+int				he_thinks(t_thread_data *thread_data);
 void	set_last_mealtime(t_thread_data *thread_data, pthread_mutex_t *mealtime_lock);
 int					ft_isdigit(unsigned int c);
 int					ft_strncmp(char *s1, char *s2, size_t n);

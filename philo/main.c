@@ -17,12 +17,12 @@
 // printf("Timestamp %d\n", (long)(tv.tv_sec * 1000 + tv.tv_usec / 1000));
 // usleep(1000);
 
-
 int	philosophers(t_locks *locks, t_data *data)
 {
 	long			i;
 	t_thread_data	*thread_data;
 	pthread_t		*threads;
+	unsigned long	starttime;
 
 	if (!locks || !data)
 		return (EXIT_FAILURE);
@@ -45,12 +45,21 @@ int	philosophers(t_locks *locks, t_data *data)
 			(void *)&(thread_data[i]));
 		i++;
 	}
+	locks->starttime_flag = 1;
+	starttime = get_timestamp();
+	philosopher_log("start\n", &(thread_data[0]), &locks->print_lock);
+	usleep(200);
 	i = 0;
 	while (1)
 	{
-		if (get_timestamp() - thread_data[i].starttime >= (unsigned long)data->time_to_die)
+		unsigned long	time = get_timestamp() - thread_data[i].mealtime;
+		if (time >= (unsigned long)data->time_to_die)
 		{
-			philosopher_log("died\n", i + 1, &locks->print_lock);
+			pthread_mutex_lock(&locks->print_lock);
+			printf(" %ld >= %ld \n", time, (unsigned long)data->time_to_die);
+			pthread_mutex_unlock(&locks->print_lock);
+			philosopher_log("died\n", &thread_data[i], &locks->print_lock);
+			thread_data[i].locks->philosopher_died_flag = 1;
 			break ;
 		}
 		i = (i + 1) % data->num_philosophers;

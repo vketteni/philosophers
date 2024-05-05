@@ -41,46 +41,6 @@ t_data	*initialize_input(int argc, const char **argv)
 	return (data);
 }
 
-t_locks	*initialize_locks(t_locks *locks, t_data *data)
-{
-	int			i;
-
-	if (!data)
-		return (NULL);
-	i = 0;
-	while (i < data->num_philosophers)
-	{
-		if (pthread_mutex_init(&(locks->thread_mutexes[i]), NULL))
-			return (NULL);
-		i++;
-	}
-	if (pthread_mutex_init(&(locks->print_lock), NULL)
-		|| pthread_mutex_init(&(locks->total_meals_lock), NULL)
-		|| pthread_mutex_init(&(locks->mealtime_lock), NULL))
-		return (NULL);
-	return (locks);
-}
-
-t_locks	*create_locks(t_data *data)
-{
-	t_locks 		*mutexes;
-
-	if (!data)
-		return (NULL);
-	mutexes = (t_locks *)malloc(sizeof(t_locks));
-	if (!mutexes)
-		return (NULL);
-	mutexes->thread_mutexes = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * data->num_philosophers);
-	if (!mutexes->thread_mutexes)
-		return (NULL);
-	if (!initialize_locks(mutexes, data))
-	{
-		free_memory(mutexes, NULL, NULL);
-		return (NULL);
-	}
-	return (mutexes);
-}
-
 t_thread_data	*initialize_thread_data(pthread_t *threads, t_locks *locks, t_data *data)
 {
 	t_thread_data	*thread_data;
@@ -100,7 +60,7 @@ t_thread_data	*initialize_thread_data(pthread_t *threads, t_locks *locks, t_data
 	{
 		thread_data[i].thread = threads[i];
 		thread_data[i].thread_id = i;
-		thread_data[i].starttime = 0;
+		thread_data[i].mealtime = 0;
 		thread_data[i].locks = locks;
 		thread_data[i].input_data = data;
 		i++;
