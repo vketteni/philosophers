@@ -25,11 +25,11 @@ pthread_t	*initialize_threads(size_t num_threads)
 	return (threads);
 }
 
-t_data	*initialize_input(int argc, const char **argv)
+t_simulation	*initialize_input(int argc, const char **argv)
 {
-	t_data			*data;
+	t_simulation	*data;
 
-	data = (t_data *)malloc(sizeof(t_data));
+	data = (t_simulation *)malloc(sizeof(t_simulation));
 	if (!data)
 		return (NULL);
 	data->num_philosophers = ft_atoi(argv[1]);
@@ -41,28 +41,28 @@ t_data	*initialize_input(int argc, const char **argv)
 	return (data);
 }
 
-t_thread_data	*initialize_thread_data(pthread_t *threads, t_locks *locks, t_data *data)
+t_thread_data	*initialize_thread_data(pthread_t *threads, t_locks *locks,
+		t_simulation *simulation)
 {
 	t_thread_data	*thread_data;
-	int	i;
+	unsigned long	i;
 
-	if (!data || !locks)
+	if (!simulation || !locks)
 		return (NULL);
-
-	thread_data = (t_thread_data *)malloc(sizeof(t_thread_data) * data->num_philosophers);
+	thread_data = (t_thread_data *)malloc(sizeof(t_thread_data)
+			* simulation->num_philosophers);
 	if (!thread_data)
-	{
-		free(threads);
 		return (NULL);
-	}
 	i = 0;
-	while (i < data->num_philosophers)
+	while (i < simulation->num_philosophers)
 	{
 		thread_data[i].thread = threads[i];
 		thread_data[i].thread_id = i;
-		thread_data[i].mealtime = 0;
+		thread_data[i].last_mealtime = 0;
 		thread_data[i].locks = locks;
-		thread_data[i].input_data = data;
+		thread_data[i].meal_count = 0;
+		thread_data[i].total_meals = false;
+		thread_data[i].simulation = simulation;
 		i++;
 	}
 	return (thread_data);

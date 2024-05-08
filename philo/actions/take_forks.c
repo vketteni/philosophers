@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   take_forks.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vketteni <vketteni@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/07 19:33:14 by vketteni          #+#    #+#             */
+/*   Updated: 2024/05/07 19:33:16 by vketteni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo.h"
 
 void	pick_left_fork(t_thread_data *thread_data)
@@ -17,7 +29,7 @@ void	pick_right_fork(t_thread_data *thread_data)
 	int		num_philosophers;
 
 	thread_id = thread_data->thread_id;
-	num_philosophers = thread_data->input_data->num_philosophers;
+	num_philosophers = thread_data->simulation->num_philosophers;
 	locks = thread_data->locks;
 	pthread_mutex_lock(&(locks->thread_mutexes[(thread_id + 1)
 			% (num_philosophers)]));
@@ -33,8 +45,10 @@ int	he_picks_up_forks(t_thread_data *thread_data)
 	if (locks->philosopher_died_flag)
 		return (1);
 	pick_left_fork(thread_data);
-	philosopher_log("has taken a fork\n", thread_data, &(locks->print_lock));
+	philosopher_log("has taken the left fork\n", thread_data,
+		&(locks->print_lock));
 	pick_right_fork(thread_data);
-	philosopher_log("has taken a fork\n", thread_data, &(locks->print_lock));
+	philosopher_log("has taken the right fork\n", thread_data,
+		&(locks->print_lock));
 	return (0);
 }

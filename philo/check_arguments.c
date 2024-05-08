@@ -19,8 +19,8 @@ int	check_arguments(int argc, const char **argv)
 	if (argc < 5 || argc > 6)
 	{
 		printf("Usage: philo number_of_philosophers "
-				"time_to_die time_to_eat time_to_sleep "
-				"[number_of_times_each_philosopher_must_eat]\n");
+			"time_to_die time_to_eat time_to_sleep "
+			"[number_of_times_each_philosopher_must_eat]\n");
 		return (1);
 	}
 	while (argc > 1)
