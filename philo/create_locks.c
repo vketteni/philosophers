@@ -29,7 +29,6 @@ t_locks	*initialize_locks(t_locks *locks, t_simulation *data)
 	if (pthread_mutex_init(&(locks->print_lock), NULL)
 		|| pthread_mutex_init(&(locks->total_meals_lock), NULL))
 		return (NULL);
-	locks->philosopher_died_flag = 0;
 	return (locks);
 }
 

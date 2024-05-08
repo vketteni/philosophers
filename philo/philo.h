@@ -29,7 +29,6 @@ typedef struct s_locks
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	starttime_lock;
 	pthread_mutex_t	total_meals_lock;
-	unsigned long	philosopher_died_flag;
 }					t_locks;
 
 typedef struct s_simulation_data
@@ -40,6 +39,7 @@ typedef struct s_simulation_data
 	unsigned long	time_to_sleep;
 	unsigned long	num_must_eat;
 	unsigned long	starttime;
+	unsigned long	philosopher_died_flag;
 }					t_simulation;
 
 typedef struct s_thread_data
@@ -73,9 +73,9 @@ int					free_memory(t_locks *mutexes, pthread_t *threads,
 t_thread_data		*initialize_thread_data(pthread_t *threads, t_locks *locks,
 						t_simulation *data);
 pthread_t			*initialize_threads(size_t num_threads);
-t_simulation		*initialize_input(int argc, const char **argv);
+t_simulation		*initialize_simulation(int argc, const char **argv);
 t_locks				*initialize_locks(t_locks *locks, t_simulation *data);
 t_locks				*create_locks(t_simulation *data);
-void				observe_the_round_table(t_thread_data *thread_data);
-
+void				observe_the_round_table(t_thread_data *threads_data,
+						t_simulation *simulation);
 #endif

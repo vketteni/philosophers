@@ -19,7 +19,7 @@ int	he_sleeps(t_thread_data *thread_data)
 
 	thread_id = thread_data->thread_id;
 	locks = thread_data->locks;
-	if (locks->philosopher_died_flag)
+	if (thread_data->simulation->philosopher_died_flag)
 		return (1);
 	philosopher_log("is sleeping\n", thread_data, &(locks->print_lock));
 	usleep(thread_data->simulation->time_to_sleep * 1000);

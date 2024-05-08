@@ -42,13 +42,21 @@ int	he_picks_up_forks(t_thread_data *thread_data)
 
 	thread_id = thread_data->thread_id;
 	locks = thread_data->locks;
-	if (locks->philosopher_died_flag)
+	if (thread_data->simulation->philosopher_died_flag)
 		return (1);
 	pick_left_fork(thread_data);
 	philosopher_log("has taken the left fork\n", thread_data,
 		&(locks->print_lock));
+	while (thread_data->simulation->num_philosophers == 1)
+	{
+		if (thread_data->simulation->philosopher_died_flag)
+			return (1);
+		usleep(10000);
+	}
 	pick_right_fork(thread_data);
 	philosopher_log("has taken the right fork\n", thread_data,
 		&(locks->print_lock));
+
+
 	return (0);
 }

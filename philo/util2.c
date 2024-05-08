@@ -29,7 +29,7 @@ void	philosopher_log(char *log_message, t_thread_data *thread_data,
 	thread_id = thread_data->thread_id;
 	starttime = thread_data->simulation->starttime;
 	pthread_mutex_lock(print_lock);
-	if (!thread_data->locks->philosopher_died_flag)
+	if (!thread_data->simulation->philosopher_died_flag)
 	{
 		printf("%ldms philosopher %ld ", get_timestamp() - starttime, thread_id
 			+ 1);

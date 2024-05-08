@@ -50,7 +50,7 @@ int	he_releases_forks(t_thread_data *thread_data)
 	thread_id = thread_data->thread_id;
 	num_philosophers = thread_data->simulation->num_philosophers;
 	locks = thread_data->locks;
-	if (locks->philosopher_died_flag)
+	if (thread_data->simulation->philosopher_died_flag)
 		return (1);
 	release_left_fork(thread_data);
 	release_right_fork(thread_data);

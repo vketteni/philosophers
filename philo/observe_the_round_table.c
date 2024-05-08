@@ -15,7 +15,7 @@
 int	every_philosopher_is_full(t_simulation *simulation,
 		t_thread_data *thread_data)
 {
-	int	i;
+	unsigned long	i;
 
 	i = 0;
 	while (i < simulation->num_philosophers)
@@ -37,10 +37,10 @@ int	a_philosopher_died(unsigned long thread_id, t_simulation *simulation,
 	pthread_mutex_unlock(&thread_data->locks->mealtime_mutexes[thread_id]);
 	if (last_mealtime > simulation->time_to_die)
 	{
-		thread_data->locks->philosopher_died_flag = 1;
+		thread_data->simulation->philosopher_died_flag = 1;
 		pthread_mutex_lock(&thread_data->locks->print_lock);
 		printf("%ld%s philosopher %ld ", get_timestamp()
-			- simulation->starttime, "ms", thread_data->thread_id);
+			- simulation->starttime, "ms", thread_data->thread_id + 1);
 		printf("%s", "died\n");
 		pthread_mutex_unlock(&thread_data->locks->print_lock);
 		return (1);
@@ -61,7 +61,7 @@ int	a_philosopher_is_full(unsigned long thread_id, t_simulation *simulation,
 	return (0);
 }
 
-void	observe_the_round_table(t_thread_data *thread_data,
+void	observe_the_round_table(t_thread_data *threads_data,
 		t_simulation *simulation)
 {
 	int				thread_id;
@@ -70,7 +70,7 @@ void	observe_the_round_table(t_thread_data *thread_data,
 	thread_id = 0;
 	while (1)
 	{
-		thread_data = &thread_data[thread_id];
+		thread_data = &threads_data[thread_id];
 		if (a_philosopher_died(thread_id, simulation, thread_data))
 			break ;
 		if (a_philosopher_is_full(thread_id, simulation, thread_data))
