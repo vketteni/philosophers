@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-t_locks	*initialize_locks(t_locks *locks, t_simulation *data)
+t_locks	*initialize_locks(t_locks *locks, t_simulation_data *data)
 {
 	unsigned long	i;
 
@@ -32,7 +32,7 @@ t_locks	*initialize_locks(t_locks *locks, t_simulation *data)
 	return (locks);
 }
 
-t_locks	*create_locks(t_simulation *data)
+t_locks	*create_locks(t_simulation_data *data)
 {
 	t_locks	*mutexes;
 

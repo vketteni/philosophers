@@ -1,0 +1,28 @@
+{
+	"files.associations": {
+		"array": "c",
+		"*.tcc": "c",
+		"string": "c",
+		"vector": "c",
+		"string_view": "c",
+		"functional": "c",
+		"istream": "c",
+		"limits": "c",
+		"ostream": "c",
+		"ranges": "c",
+		"ratio": "c",
+		"span": "c",
+		"sstream": "c",
+		"stop_token": "c",
+		"streambuf": "c",
+		"tuple": "c",
+		"time.h": "c",
+		"philo.h": "c",
+		"philo_bonus.h": "c",
+		"pthread.h": "c",
+		"semaphore.h": "c",
+		"unistd.h": "c",
+		"stdio.h": "c",
+		"stdbool.h": "c"
+	}
+}

@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int	every_philosopher_is_full(t_simulation *simulation,
+int	every_philosopher_is_full(t_simulation_data *simulation,
 		t_thread_data *thread_data)
 {
 	unsigned long	i;
@@ -27,7 +27,7 @@ int	every_philosopher_is_full(t_simulation *simulation,
 	return (1);
 }
 
-int	a_philosopher_died(unsigned long thread_id, t_simulation *simulation,
+int	a_philosopher_died(unsigned long thread_id, t_simulation_data *simulation,
 		t_thread_data *thread_data)
 {
 	unsigned long	last_mealtime;
@@ -48,7 +48,7 @@ int	a_philosopher_died(unsigned long thread_id, t_simulation *simulation,
 	return (0);
 }
 
-int	a_philosopher_is_full(unsigned long thread_id, t_simulation *simulation,
+int	a_philosopher_is_full(unsigned long thread_id, t_simulation_data *simulation,
 		t_thread_data *thread_data)
 {
 	unsigned long	meal_count;
@@ -62,7 +62,7 @@ int	a_philosopher_is_full(unsigned long thread_id, t_simulation *simulation,
 }
 
 void	observe_the_round_table(t_thread_data *threads_data,
-		t_simulation *simulation)
+		t_simulation_data *simulation)
 {
 	int				thread_id;
 	t_thread_data	*thread_data;

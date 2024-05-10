@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 pthread_t	*initialize_threads(size_t num_threads)
 {
@@ -25,11 +25,11 @@ pthread_t	*initialize_threads(size_t num_threads)
 	return (threads);
 }
 
-t_simulation_data	*initialize_simulation(int argc, const char **argv)
+t_simulation	*initialize_simulation(int argc, const char **argv)
 {
-	t_simulation_data	*simulation;
+	t_simulation	*simulation;
 
-	simulation = (t_simulation_data *)malloc(sizeof(t_simulation_data));
+	simulation = (t_simulation *)malloc(sizeof(t_simulation));
 	if (!simulation)
 		return (NULL);
 	simulation->num_philosophers = ft_atoi(argv[1]);
@@ -43,29 +43,27 @@ t_simulation_data	*initialize_simulation(int argc, const char **argv)
 	return (simulation);
 }
 
-t_thread_data	*initialize_threads_data(pthread_t *threads, t_locks *locks,
-		t_simulation_data *simulation)
+t_data	*initialize_process_data(t_locks *locks,
+		t_simulation *simulation)
 {
-	t_thread_data	*thread_data;
+	t_data	*data;
 	unsigned long	i;
 
-	if (!simulation || !locks)
+	if (!simulation)
 		return (NULL);
-	thread_data = (t_thread_data *)malloc(sizeof(t_thread_data)
+	data = (t_data *)malloc(sizeof(t_data)
 			* simulation->num_philosophers);
-	if (!thread_data)
+	if (!data)
 		return (NULL);
 	i = 0;
 	while (i < simulation->num_philosophers)
 	{
-		thread_data[i].thread = threads[i];
-		thread_data[i].thread_id = i;
-		thread_data[i].last_mealtime = 0;
-		thread_data[i].locks = locks;
-		thread_data[i].meal_count = 0;
-		thread_data[i].total_meals = false;
-		thread_data[i].simulation = simulation;
+		data[i].last_mealtime = 0;
+		data[i].meal_count = 0;
+		data[i].total_meals = false;
+		data[i].simulation = simulation;
+		data[i].locks = locks;
 		i++;
 	}
-	return (thread_data);
+	return (data);
 }

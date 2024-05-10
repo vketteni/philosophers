@@ -13,7 +13,7 @@
 #include "philo.h"
 
 void	start_philosopher_meeting(t_thread_data *threads_data,
-		t_simulation *simulation)
+		t_simulation_data *simulation)
 {
 	unsigned long	i;
 
@@ -28,7 +28,7 @@ void	start_philosopher_meeting(t_thread_data *threads_data,
 	usleep(100 * simulation->num_philosophers);
 }
 
-void	close_the_meeting(t_thread_data *threads_data, t_simulation *simulation)
+void	close_the_meeting(t_thread_data *threads_data, t_simulation_data *simulation)
 {
 	unsigned long	i;
 
@@ -51,7 +51,7 @@ void	close_the_meeting(t_thread_data *threads_data, t_simulation *simulation)
 	pthread_mutex_destroy(&threads_data[i].locks->starttime_lock);
 }
 
-int	philosophers(t_locks *locks, t_simulation *simulation)
+int	philosophers(t_locks *locks, t_simulation_data *simulation)
 {
 	t_thread_data	*threads_data;
 	pthread_t		*threads;
@@ -63,7 +63,7 @@ int	philosophers(t_locks *locks, t_simulation *simulation)
 	threads = initialize_threads(simulation->num_philosophers);
 	if (!threads)
 		return (free_memory(locks, NULL, simulation));
-	threads_data = initialize_thread_data(threads, locks, simulation);
+	threads_data = initialize_threads_data(threads, locks, simulation);
 	if (!threads_data)
 		return (free_memory(locks, threads, simulation));
 	start_philosopher_meeting(threads_data, simulation);
@@ -77,7 +77,7 @@ int	philosophers(t_locks *locks, t_simulation *simulation)
 int	main(int argc, const char **argv)
 {
 	t_locks			*locks;
-	t_simulation	*simulation;
+	t_simulation_data	*simulation;
 
 	if (check_arguments(argc, argv))
 		return (EXIT_FAILURE);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	ft_isdigit(unsigned int c)
 {
@@ -57,17 +57,17 @@ int	ft_atoi(const char *nptr)
 	return (result * (1 + (is_negative * -2)));
 }
 
-int	free_memory(t_locks *mutexes, pthread_t *threads, t_simulation_data *data)
+int	free_memory(sem_t *semaphore, t_simulation_data *data)
 {
-	if (threads)
-		free(threads);
+	if (semaphore)
+		free(semaphore);
 	if (data)
 		free(data);
-	if (mutexes)
-	{
-		free(mutexes->thread_mutexes);
-		free(mutexes->mealtime_mutexes);
-		free(mutexes);
-	}
+	// if (mutexes)
+	// {
+	// 	free(mutexes->thread_mutexes);
+	// 	free(mutexes->mealtime_mutexes);
+	// 	free(mutexes);
+	// }
 	return (EXIT_FAILURE);
 }
