@@ -12,19 +12,6 @@
 
 #include "philo_bonus.h"
 
-pthread_t	*initialize_threads(size_t num_threads)
-{
-	pthread_t	*threads;
-
-	if (num_threads <= 0)
-		return (NULL);
-	threads = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);
-	if (!threads)
-		return (NULL);
-	memset(threads, 0, num_threads);
-	return (threads);
-}
-
 t_simulation	*initialize_simulation(int argc, const char **argv)
 {
 	t_simulation	*simulation;
@@ -63,6 +50,7 @@ t_data	*initialize_process_data(t_locks *locks,
 		data[i].total_meals = false;
 		data[i].simulation = simulation;
 		data[i].locks = locks;
+		data[i].id = i;
 		i++;
 	}
 	return (data);

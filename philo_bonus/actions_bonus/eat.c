@@ -10,25 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
-int	he_eats(t_thread_data *thread_data)
+int	he_eats(t_data *data)
 {
-	int				thread_id;
+	int				id;
 	t_locks			*locks;
 
-	thread_id = thread_data->thread_id;
-	locks = thread_data->locks;
-	if (thread_data->simulation->philosopher_died_flag)
+	id = data->id;
+	locks = data->locks;
+	if (data->simulation->philosopher_died_flag)
 		return (1);
-	pthread_mutex_lock(&locks->mealtime_mutexes[thread_id]);
-	thread_data->last_mealtime = get_timestamp();
-	philosopher_log("is eating\n", thread_data, &(locks->print_lock));
-	pthread_mutex_unlock(&locks->mealtime_mutexes[thread_id]);
-	pthread_mutex_lock(&locks->mealtime_mutexes[thread_id]);
-	usleep(thread_data->simulation->time_to_eat * 1000);
-	thread_data->meal_count++;
-	thread_data->last_mealtime = get_timestamp();
-	pthread_mutex_unlock(&locks->mealtime_mutexes[thread_id]);
+	sem_wait(&locks->mealtime_lock[id]);
+	data->last_mealtime = get_timestamp();
+	philosopher_log("is eating\n", data, &(locks->print_lock));
+	sem_post(&locks->mealtime_lock[id]);
+	sem_wait(&locks->mealtime_lock[id]);
+	usleep(data->simulation->time_to_eat * 1000);
+	data->meal_count++;
+	data->last_mealtime = get_timestamp();
+	sem_post(&locks->mealtime_lock[id]);
 	return (0);
 }

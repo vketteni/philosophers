@@ -26,8 +26,7 @@ t_locks	*initialize_locks(t_locks *locks, t_simulation_data *data)
 			return (NULL);
 		i++;
 	}
-	if (pthread_mutex_init(&(locks->print_lock), NULL)
-		|| pthread_mutex_init(&(locks->total_meals_lock), NULL))
+	if (pthread_mutex_init(&(locks->print_lock), NULL))
 		return (NULL);
 	return (locks);
 }

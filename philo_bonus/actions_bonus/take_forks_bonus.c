@@ -12,43 +12,47 @@
 
 #include "../philo_bonus.h"
 
-int	just_a_single_philosopher(t_thread_data *thread_data)
+int	just_a_single_philosopher(t_data *data)
 {
-	while (thread_data->simulation->num_philosophers == 1)
+	while (data->simulation->num_philosophers == 1)
 	{
-		if (thread_data->simulation->philosopher_died_flag)
+		if (data->simulation->philosopher_died_flag)
 			return (1);
 		usleep(10000);
 	}
 	return (0);
 }
 
-void	pick_left_fork(t_thread_data *thread_data)
+void	pick_left_fork(t_data *data)
 {
-	int		thread_id;
+	int		id;
 
-	thread_id = thread_data->thread_id;
+	id = data->id;
+	sem_wait(&data->locks->table_forks_lock);
 }
 
-void	pick_right_fork(t_thread_data *thread_data)
+void	pick_right_fork(t_data *data)
 {
-	int		thread_id;
+	int		id;
 	int		num_philosophers;
 
-	thread_id = thread_data->thread_id;
-	num_philosophers = thread_data->simulation->num_philosophers;
+	id = data->id;
+	num_philosophers = data->simulation->num_philosophers;
+	sem_wait(&data->locks->table_forks_lock);
+	philosopher_log("has taken the right fork\n", data,
+		&(data->locks->print_lock));
 }
 
-int	he_picks_up_forks(t_thread_data *thread_data)
+int	he_picks_up_forks(t_data *data)
 {
-	int		thread_id;
+	int		id;
 
-	thread_id = thread_data->thread_id;
-	if (thread_data->simulation->philosopher_died_flag)
+	id = data->id;
+	if (data->simulation->philosopher_died_flag)
 		return (1);
-	pick_left_fork(thread_data);
-	if (just_a_single_philosopher(thread_data))
+	pick_left_fork(data);
+	if (just_a_single_philosopher(data))
 		return (1);
-	pick_right_fork(thread_data);
+	pick_right_fork(data);
 	return (0);
 }

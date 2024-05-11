@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
-int	he_thinks(t_thread_data *thread_data)
+int	he_thinks(t_data *data)
 {
-	int		thread_id;
+	int		id;
 	t_locks	*locks;
 
-	thread_id = thread_data->thread_id;
-	locks = thread_data->locks;
-	if (thread_data->simulation->philosopher_died_flag)
+	id = data->id;
+	locks = data->locks;
+	if (data->simulation->philosopher_died_flag)
 		return (1);
-	philosopher_log("is thinking\n", thread_data, &(locks->print_lock));
+	philosopher_log("is thinking\n", data, &(locks->print_lock));
 	return (0);
 }

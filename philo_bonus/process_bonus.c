@@ -25,18 +25,18 @@
 
 void	*philo_process(void *arg)
 {
-	t_thread_data	*thread_data;
+	t_data	*data;
 
-	thread_data = (t_thread_data *)arg;
+	data = (t_data *)arg;
 	// initialize_last_mealtime(thread_data->locks, thread_data->thread_id,
 	// 	thread_data);
-	if (thread_data->thread_id % 2 == 0)
-		usleep(thread_data->simulation->time_to_eat * 1000);
+	if (data->id % 2 == 0)
+		usleep(data->simulation->time_to_eat * 1000);
 	while (1)
 	{
-		if (he_picks_up_forks(thread_data) || he_eats(thread_data)
-			|| he_releases_forks(thread_data) || he_sleeps(thread_data)
-			|| he_thinks(thread_data))
+		if (he_picks_up_forks(data) || he_eats(data)
+			|| he_releases_forks(data) || he_sleeps(data)
+			|| he_thinks(data))
 			break ;
 	}
 	return (NULL);

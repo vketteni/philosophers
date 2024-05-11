@@ -11,7 +11,10 @@
 
 typedef struct s_locks
 {
-	sem_t			table_forks;
+	sem_t			table_forks_lock;
+	sem_t			*mealtime_lock;
+	sem_t			*total_meals_lock;
+	sem_t			print_lock;
 }					t_locks;
 
 typedef struct s_simulation
@@ -27,6 +30,7 @@ typedef struct s_simulation
 
 typedef struct s_data
 {
+	unsigned long	id;
 	long			meal_count;
 	t_simulation	*simulation;
 	t_locks			*locks;
@@ -36,7 +40,8 @@ typedef struct s_data
 
 void				*philo_process(void *arg);
 size_t				get_timestamp(void);
-void				philosopher_log(char *format_string, t_data *thread_data);
+void				philosopher_log(char *log_message, t_data *data,
+						sem_t *print_lock);
 int					he_picks_up_forks(t_data *thread_data);
 int					he_sleeps(t_data *thread_data);
 int					he_eats(t_data *thread_data);
@@ -48,9 +53,8 @@ int					ft_atoi(const char *nptr);
 int					check_arguments(int argc, const char **argv);
 t_locks				*create_locks(t_simulation *simulation);
 int					free_memory(sem_t *semaphore, t_simulation *data);
-t_data				*initialize_threads_data(pthread_t *threads,
-						t_simulation *data);
-pthread_t			*initialize_threads(size_t num_threads);
+t_data				*initialize_process_data(t_locks *locks,
+						t_simulation *simulation);
 t_simulation		*initialize_simulation(int argc, const char **argv);
 // void					observe_the_round_table(t_data *threads_data,
 // 							t_simulation *simulation);

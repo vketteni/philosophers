@@ -47,8 +47,6 @@ void	close_the_meeting(t_thread_data *threads_data, t_simulation_data *simulatio
 	}
 	i = 0;
 	pthread_mutex_destroy(&threads_data[i].locks->print_lock);
-	pthread_mutex_destroy(&threads_data[i].locks->total_meals_lock);
-	pthread_mutex_destroy(&threads_data[i].locks->starttime_lock);
 }
 
 int	philosophers(t_locks *locks, t_simulation_data *simulation)

@@ -27,8 +27,6 @@ typedef struct s_locks
 	pthread_mutex_t		*thread_mutexes;
 	pthread_mutex_t		*mealtime_mutexes;
 	pthread_mutex_t		print_lock;
-	pthread_mutex_t		starttime_lock;
-	pthread_mutex_t		total_meals_lock;
 }						t_locks;
 
 typedef struct s_simulation_data

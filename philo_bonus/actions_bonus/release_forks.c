@@ -10,49 +10,48 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
-void	release_left_fork(t_thread_data *thread_data)
+void	release_left_fork(t_data *data)
 {
-	int		thread_id;
+	int		id;
 	int		num_philosophers;
 	t_locks	*locks;
 
-	thread_id = thread_data->thread_id;
-	num_philosophers = thread_data->simulation->num_philosophers;
-	locks = thread_data->locks;
-	philosopher_log("has released left fork\n", thread_data,
+	id = data->id;
+	num_philosophers = data->simulation->num_philosophers;
+	locks = data->locks;
+	philosopher_log("has released left fork\n", data,
 		&(locks->print_lock));
-	pthread_mutex_unlock(&(locks->thread_mutexes[thread_id]));
+	sem_post(&data->locks->table_forks_lock);
 }
 
-void	release_right_fork(t_thread_data *thread_data)
+void	release_right_fork(t_data *data)
 {
-	int		thread_id;
+	int		id;
 	int		num_philosophers;
 	t_locks	*locks;
 
-	thread_id = thread_data->thread_id;
-	num_philosophers = thread_data->simulation->num_philosophers;
-	locks = thread_data->locks;
-	philosopher_log("has released right fork\n", thread_data,
+	id = data->id;
+	num_philosophers = data->simulation->num_philosophers;
+	locks = data->locks;
+	philosopher_log("has released right fork\n", data,
 		&(locks->print_lock));
-	pthread_mutex_unlock(&(locks->thread_mutexes[(thread_id + 1)
-			% (num_philosophers)]));
+	sem_post(&data->locks->table_forks_lock);
 }
 
-int	he_releases_forks(t_thread_data *thread_data)
+int	he_releases_forks(t_data *data)
 {
-	int		thread_id;
+	int		id;
 	int		num_philosophers;
 	t_locks	*locks;
 
-	thread_id = thread_data->thread_id;
-	num_philosophers = thread_data->simulation->num_philosophers;
-	locks = thread_data->locks;
-	if (thread_data->simulation->philosopher_died_flag)
+	id = data->id;
+	num_philosophers = data->simulation->num_philosophers;
+	locks = data->locks;
+	if (data->simulation->philosopher_died_flag)
 		return (1);
-	release_left_fork(thread_data);
-	release_right_fork(thread_data);
+	release_left_fork(data);
+	release_right_fork(data);
 	return (0);
 }
