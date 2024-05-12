@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-t_locks	*initialize_locks(t_locks *locks, t_simulation_data *data)
+t_locks	*initialize_locks(t_locks *locks, t_simulation *data)
 {
 	unsigned long	i;
 
@@ -22,7 +22,7 @@ t_locks	*initialize_locks(t_locks *locks, t_simulation_data *data)
 	while (i < data->num_philosophers)
 	{
 		if (pthread_mutex_init(&(locks->thread_mutexes[i]), NULL)
-			|| pthread_mutex_init(&(locks->mealtime_mutexes[i]), NULL))
+			|| pthread_mutex_init(&(locks->mealtime_locks[i]), NULL))
 			return (NULL);
 		i++;
 	}
@@ -31,7 +31,7 @@ t_locks	*initialize_locks(t_locks *locks, t_simulation_data *data)
 	return (locks);
 }
 
-t_locks	*create_locks(t_simulation_data *data)
+t_locks	*create_locks(t_simulation *data)
 {
 	t_locks	*mutexes;
 
@@ -44,10 +44,10 @@ t_locks	*create_locks(t_simulation_data *data)
 			* data->num_philosophers);
 	if (!mutexes->thread_mutexes)
 		return (NULL);
-	mutexes->mealtime_mutexes = 
+	mutexes->mealtime_locks = 
 		(pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 			* data->num_philosophers);
-	if (!mutexes->mealtime_mutexes)
+	if (!mutexes->mealtime_locks)
 	{
 		free_memory(mutexes, NULL, NULL);
 		return (NULL);

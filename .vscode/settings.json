@@ -23,6 +23,7 @@
 		"semaphore.h": "c",
 		"unistd.h": "c",
 		"stdio.h": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"limits.h": "c"
 	}
 }

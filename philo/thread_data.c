@@ -25,13 +25,14 @@ pthread_t	*initialize_threads(size_t num_threads)
 	return (threads);
 }
 
-t_simulation_data	*initialize_simulation(int argc, const char **argv)
+t_simulation	*initialize_simulation(int argc, const char **argv)
 {
-	t_simulation_data	*simulation;
+	t_simulation	*simulation;
 
-	simulation = (t_simulation_data *)malloc(sizeof(t_simulation_data));
+	simulation = (t_simulation *)malloc(sizeof(t_simulation));
 	if (!simulation)
 		return (NULL);
+	memset(simulation, 0, sizeof(t_simulation));
 	simulation->num_philosophers = ft_atoi(argv[1]);
 	simulation->time_to_die = ft_atoi(argv[2]);
 	simulation->time_to_eat = ft_atoi(argv[3]);
@@ -44,7 +45,7 @@ t_simulation_data	*initialize_simulation(int argc, const char **argv)
 }
 
 t_thread_data	*initialize_threads_data(pthread_t *threads, t_locks *locks,
-		t_simulation_data *simulation)
+		t_simulation *simulation)
 {
 	t_thread_data	*thread_data;
 	unsigned long	i;

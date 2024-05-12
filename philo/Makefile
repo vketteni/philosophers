@@ -5,7 +5,7 @@ INC=
 OBJ_DIR=obj/
 SRCS=	main.c util1.c util2.c check_arguments.c actions/eat.c thread_data.c \
 		actions/sleep.c actions/take_forks.c actions/release_forks.c actions/think.c \
-		thread_routine.c create_locks.c observe_the_round_table.c
+		thread_routine.c create_locks.c observe_table.c
 OBJS=$(SRCS:.c=.o)
 OBJS := $(addprefix $(OBJ_DIR), $(OBJS))
 

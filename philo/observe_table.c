@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int	every_philosopher_is_full(t_simulation_data *simulation,
+int	every_philosopher_is_full(t_simulation *simulation,
 		t_thread_data *thread_data)
 {
 	unsigned long	i;
@@ -24,17 +24,18 @@ int	every_philosopher_is_full(t_simulation_data *simulation,
 			return (0);
 		i++;
 	}
+	simulation->everyone_full_flag = 1;
 	return (1);
 }
 
-int	a_philosopher_died(unsigned long thread_id, t_simulation_data *simulation,
+int	a_philosopher_died(unsigned long thread_id, t_simulation *simulation,
 		t_thread_data *thread_data)
 {
 	unsigned long	last_mealtime;
 
-	pthread_mutex_lock(&thread_data->locks->mealtime_mutexes[thread_id]);
+	pthread_mutex_lock(&thread_data->locks->mealtime_locks[thread_id]);
 	last_mealtime = get_timestamp() - thread_data->last_mealtime;
-	pthread_mutex_unlock(&thread_data->locks->mealtime_mutexes[thread_id]);
+	pthread_mutex_unlock(&thread_data->locks->mealtime_locks[thread_id]);
 	if (last_mealtime > simulation->time_to_die)
 	{
 		thread_data->simulation->philosopher_died_flag = 1;
@@ -48,21 +49,21 @@ int	a_philosopher_died(unsigned long thread_id, t_simulation_data *simulation,
 	return (0);
 }
 
-int	a_philosopher_is_full(unsigned long thread_id, t_simulation_data *simulation,
-		t_thread_data *thread_data)
+int	a_philosopher_is_full(unsigned long thread_id,
+		t_simulation *simulation, t_thread_data *thread_data)
 {
 	unsigned long	meal_count;
 
-	pthread_mutex_lock(&thread_data->locks->mealtime_mutexes[thread_id]);
+	pthread_mutex_lock(&thread_data->locks->mealtime_locks[thread_id]);
 	meal_count = thread_data->meal_count;
-	pthread_mutex_unlock(&thread_data->locks->mealtime_mutexes[thread_id]);
+	pthread_mutex_unlock(&thread_data->locks->mealtime_locks[thread_id]);
 	if (meal_count >= simulation->num_must_eat)
 		return (1);
 	return (0);
 }
 
 void	observe_the_round_table(t_thread_data *threads_data,
-		t_simulation_data *simulation)
+		t_simulation *simulation)
 {
 	int				thread_id;
 	t_thread_data	*thread_data;

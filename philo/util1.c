@@ -57,7 +57,7 @@ int	ft_atoi(const char *nptr)
 	return (result * (1 + (is_negative * -2)));
 }
 
-int	free_memory(t_locks *mutexes, pthread_t *threads, t_simulation_data *data)
+int	free_memory(t_locks *mutexes, pthread_t *threads, t_simulation *data)
 {
 	if (threads)
 		free(threads);
@@ -66,7 +66,7 @@ int	free_memory(t_locks *mutexes, pthread_t *threads, t_simulation_data *data)
 	if (mutexes)
 	{
 		free(mutexes->thread_mutexes);
-		free(mutexes->mealtime_mutexes);
+		free(mutexes->mealtime_locks);
 		free(mutexes);
 	}
 	return (EXIT_FAILURE);
